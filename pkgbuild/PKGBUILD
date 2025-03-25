@@ -2,7 +2,7 @@
 # Contributor: Leonardo Berbert <leo4berbert@gmail.com>
 
 pkgname=comm-i3-theme-jolly
-pkgdesc="Squared GTK Theme for i3wm"
+pkgdesc="Jolly GTK Theme for i3wm"
 pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
@@ -24,5 +24,5 @@ package() {
     mkdir -p "${pkgdir}/usr/share/themes"
 
     # Extract theme
-    tar -I zstd -xf "Squared.tar.xz" -C "${pkgdir}/usr/share/themes"
+    tar -I zstd -xf "Jolly-GTK.tar.gz" -C "${pkgdir}/usr/share/themes"
 }
