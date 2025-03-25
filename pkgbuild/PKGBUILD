@@ -2,15 +2,12 @@
 # Contributor: Leonardo Berbert <leo4berbert@gmail.com>
 
 pkgname=comm-i3-theme-jolly
-pkgdesc="Jolly GTK Theme for i3wm"
+pkgdesc="Shades of Purple GTK Theme for i3wm"
 pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
 url="https://github.com/communitybig/${pkgname}"
 license=('MIT')
-#provides=('')
-#conflicts=('')
-#replaces=('')
 source=(
     "Shades-of-purple-standard-buttons.tar.xz"
 )
@@ -23,6 +20,12 @@ package() {
     # Create destination directories
     mkdir -p "${pkgdir}/usr/share/themes"
 
-    # Extract theme
-    tar -I zstd -xf "Shades-of-purple-standard-buttons.tar.xz" -C "${pkgdir}/usr/share/themes"
+    # Extract the theme with the correct compression tool (xz)
+    tar -xf "Shades-of-purple-standard-buttons.tar.xz"
+    
+    # Renomear para garantir consistência (opcional, mas recomendado)
+    mv "Shades-of-purple-standard-buttons" "Shades-of-Purple"
+    
+    # Copiar para o diretório correto
+    cp -r "Shades-of-Purple" "${pkgdir}/usr/share/themes/"
 }
