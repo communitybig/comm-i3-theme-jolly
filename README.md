@@ -1,7 +1,7 @@
-# Jolly GTK Theme for i3wm
+# Graphite GTK Theme for i3wm
 
 # Overview
-The Jolly GTK Theme is a modern, clean theme designed to enhance your i3wm desktop environment. It provides a consistent visual experience across GTK3 and GTK4 applications while maintaining the minimalist nature of i3.
+The Graphite GTK Theme is a modern, clean theme designed to enhance your i3wm desktop environment. It provides a consistent visual experience across GTK3 and GTK4 applications while maintaining the minimalist nature of i3.
 
 # Features
 Complete GTK3 and GTK4 theming
