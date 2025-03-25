@@ -47,10 +47,10 @@ apply_theme_to_rofi() {
     
     # Define theme colors based on Graphite-Dark-nord theme
     # Estas cores precisam ser ajustadas de acordo com as cores reais do tema Graphite-Dark-nord
-    local bg_color="#282c34"
+    local bg_color="#414b5e"
     local text_color="#f0f0f0"
-    local accent_color="#81a1c1"  # Cor principal do tema Graphite-Dark-nord
-    local border_color="#81a1c1"
+    local accent_color="#e5e9f0"  # Cor principal do tema Graphite-Dark-nord
+    local border_color="#e5e9f0"
     
     # Create Rofi theme file
     cat > "$rofi_config_dir/$THEME_NAME.rasi" << EOF
