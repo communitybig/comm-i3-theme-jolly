@@ -47,10 +47,10 @@ apply_theme_to_rofi() {
     
     # Define theme colors based on Jolly theme
     # Estas cores precisam ser ajustadas de acordo com as cores reais do tema Jolly
-    local bg_color="#1a1534"
+    local bg_color="#18062f"
     local text_color="#f0f0f0"
-    local accent_color="#676399"  # Cor principal do tema Jolly
-    local border_color="#676399"
+    local accent_color="#d3b700"  # Cor principal do tema Jolly
+    local border_color="#d3b700"
     
     # Create Rofi theme file
     cat > "$rofi_config_dir/$THEME_NAME.rasi" << EOF

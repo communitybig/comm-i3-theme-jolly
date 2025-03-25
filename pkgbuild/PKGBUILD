@@ -12,7 +12,7 @@ license=('MIT')
 #conflicts=('')
 #replaces=('')
 source=(
-    "Jolly-GTK.tar.gz"
+    "Shades-of-purple-standard-buttons.tar.xz"
 )
 sha256sums=('SKIP')
 install="pkgbuild.install"
@@ -24,5 +24,5 @@ package() {
     mkdir -p "${pkgdir}/usr/share/themes"
 
     # Extract theme
-    tar -I zstd -xf "Jolly-GTK.tar.gz" -C "${pkgdir}/usr/share/themes"
+    tar -I zstd -xf "Shades-of-purple-standard-buttons.tar.xz" -C "${pkgdir}/usr/share/themes"
 }
