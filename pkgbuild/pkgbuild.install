@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Installation file for Arch Linux packages - Jolly Theme for i3wm
+# Installation file for Arch Linux packages - Shades-of-Purple Theme for i3wm
 
 # Global variables
-THEME_NAME="Jolly-GTK"
+THEME_NAME="Shades-of-Purple"
 THEMES_DIR="/usr/share/themes/$THEME_NAME"
 
 # Function to backup Rofi configuration
@@ -34,7 +34,7 @@ backup_rofi_config() {
     return 0
 }
 
-# Function to apply Jolly theme colors to Rofi
+# Function to apply Shades-of-Purple theme colors to Rofi
 apply_theme_to_rofi() {
     local user="$1"
     local user_home="$2"
@@ -45,11 +45,11 @@ apply_theme_to_rofi() {
     # Create Rofi config directory if it doesn't exist
     mkdir -p "$rofi_config_dir"
     
-    # Define theme colors based on Jolly theme
-    # Estas cores precisam ser ajustadas de acordo com as cores reais do tema Jolly
+    # Define theme colors based on Shades-of-Purple theme
+    # Estas cores precisam ser ajustadas de acordo com as cores reais do tema Shades-of-Purple
     local bg_color="#18062f"
     local text_color="#f0f0f0"
-    local accent_color="#d3b700"  # Cor principal do tema Jolly
+    local accent_color="#d3b700"  # Cor principal do tema Shades-of-Purple
     local border_color="#d3b700"
     
     # Create Rofi theme file
@@ -316,12 +316,12 @@ backup_gtk_settings() {
 
 # Function executed before package installation
 pre_install() {
-    echo "Preparando para instalar o tema Jolly para i3wm..."
+    echo "Preparando para instalar o tema Shades-of-Purple para i3wm..."
 }
 
 # Function executed after package installation
 post_install() {
-    echo "Aplicando tema Jolly para GTK no i3wm..."
+    echo "Aplicando tema Shades-of-Purple para GTK no i3wm..."
 
     # Get user information
     user=$(logname)
@@ -355,7 +355,7 @@ post_install() {
     done
     
     # Copy theme files
-    echo "Copiando arquivos do tema Jolly..."
+    echo "Copiando arquivos do tema Shades-of-Purple..."
     cp -rp "$THEMES_DIR/gtk-4.0/"* "$GTK4_DIR/" 2>/dev/null || echo "Aviso: Arquivos GTK4 não encontrados no tema."
     cp -rp "$THEMES_DIR/gtk-3.0/"* "$GTK3_DIR/" 2>/dev/null || echo "Aviso: Arquivos GTK3 não encontrados no tema."
     
@@ -432,18 +432,18 @@ post_install() {
     # Apply theme to Rofi
     apply_theme_to_rofi "$user" "$user_home"
 
-    echo "Tema Jolly aplicado com sucesso para i3wm e Rofi! O wallpaper original foi preservado."
+    echo "Tema Shades-of-Purple aplicado com sucesso para i3wm e Rofi! O wallpaper original foi preservado."
     return 0
 }
 
 # Function executed before package removal
 pre_remove() {
-    echo "Preparando para remover o tema Jolly do i3wm..."
+    echo "Preparando para remover o tema Shades-of-Purple do i3wm..."
 }
 
 # Function executed after package removal
 post_remove() {
-    echo "Restaurando configurações padrão e removendo arquivos do tema Jolly..."
+    echo "Restaurando configurações padrão e removendo arquivos do tema Shades-of-Purple..."
 
     # Get user information
     user=$(logname)
@@ -562,6 +562,6 @@ post_remove() {
         rm -rf "$backup_dir"
     fi
 
-    echo "Configurações padrão restauradas e todos os arquivos do tema Jolly foram removidos."
+    echo "Configurações padrão restauradas e todos os arquivos do tema Shades-of-Purple foram removidos."
     return 0
 }
