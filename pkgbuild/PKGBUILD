@@ -12,7 +12,7 @@ license=('MIT')
 #conflicts=('')
 #replaces=('')
 source=(
-    "Jolly-GTK.tar.xz"
+    "Jolly-GTK.tar.gz"
 )
 sha256sums=('SKIP')
 install="pkgbuild.install"
