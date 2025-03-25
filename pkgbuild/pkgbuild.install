@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Installation file for Arch Linux packages - Shades-of-Purple Theme for i3wm
+# Installation file for Arch Linux packages - Graphite-Dark-nord Theme for i3wm
 
 # Global variables
-THEME_NAME="Shades-of-Purple"
+THEME_NAME="Graphite-Dark-nord"
 THEMES_DIR="/usr/share/themes/$THEME_NAME"
 
 # Function to backup Rofi configuration
@@ -34,7 +34,7 @@ backup_rofi_config() {
     return 0
 }
 
-# Function to apply Shades-of-Purple theme colors to Rofi
+# Function to apply Graphite-Dark-nord theme colors to Rofi
 apply_theme_to_rofi() {
     local user="$1"
     local user_home="$2"
@@ -45,12 +45,12 @@ apply_theme_to_rofi() {
     # Create Rofi config directory if it doesn't exist
     mkdir -p "$rofi_config_dir"
     
-    # Define theme colors based on Shades-of-Purple theme
-    # Estas cores precisam ser ajustadas de acordo com as cores reais do tema Shades-of-Purple
-    local bg_color="#18062f"
+    # Define theme colors based on Graphite-Dark-nord theme
+    # Estas cores precisam ser ajustadas de acordo com as cores reais do tema Graphite-Dark-nord
+    local bg_color="#282c34"
     local text_color="#f0f0f0"
-    local accent_color="#d3b700"  # Cor principal do tema Shades-of-Purple
-    local border_color="#d3b700"
+    local accent_color="#81a1c1"  # Cor principal do tema Graphite-Dark-nord
+    local border_color="#81a1c1"
     
     # Create Rofi theme file
     cat > "$rofi_config_dir/$THEME_NAME.rasi" << EOF
@@ -316,12 +316,12 @@ backup_gtk_settings() {
 
 # Function executed before package installation
 pre_install() {
-    echo "Preparando para instalar o tema Shades-of-Purple para i3wm..."
+    echo "Preparando para instalar o tema Graphite-Dark-nord para i3wm..."
 }
 
 # Function executed after package installation
 post_install() {
-    echo "Aplicando tema Shades-of-Purple para GTK no i3wm..."
+    echo "Aplicando tema Graphite-Dark-nord para GTK no i3wm..."
 
     # Get user information
     user=$(logname)
@@ -355,7 +355,7 @@ post_install() {
     done
     
     # Copy theme files
-    echo "Copiando arquivos do tema Shades-of-Purple..."
+    echo "Copiando arquivos do tema Graphite-Dark-nord..."
     cp -rp "$THEMES_DIR/gtk-4.0/"* "$GTK4_DIR/" 2>/dev/null || echo "Aviso: Arquivos GTK4 não encontrados no tema."
     cp -rp "$THEMES_DIR/gtk-3.0/"* "$GTK3_DIR/" 2>/dev/null || echo "Aviso: Arquivos GTK3 não encontrados no tema."
     
@@ -402,6 +402,52 @@ post_install() {
         chown -h "$user:$user" "$user_home/.config/assets"
     fi
 
+    # Configuração específica para Thunar/XFCE (caso esteja usando)
+    echo "Configurando Thunar para usar o tema $THEME_NAME..."
+    xfce_dir="$user_home/.config/xfce4/xfconf/xfce-perchannel-xml"
+    
+    # Verificar se o diretório XFCE existe
+    if [ -d "$user_home/.config/xfce4" ]; then
+        mkdir -p "$xfce_dir"
+        
+        # Atualizar/criar configuração do XFCE
+        xsettings_file="$xfce_dir/xsettings.xml"
+        if [ -f "$xsettings_file" ]; then
+            # Backup da configuração existente
+            cp "$xsettings_file" "$backup_dir/xsettings-$(date +%Y%m%d%H%M%S).bak"
+            
+            # Atualizar tema no arquivo de configuração
+            if grep -q "ThemeName" "$xsettings_file"; then
+                sed -i "s|<property name=\"ThemeName\".*|<property name=\"ThemeName\" type=\"string\" value=\"$THEME_NAME\"/>|" "$xsettings_file"
+            else
+                sed -i "s|</channel>|  <property name=\"ThemeName\" type=\"string\" value=\"$THEME_NAME\"/>\n</channel>|" "$xsettings_file"
+            fi
+        else
+            # Criar novo arquivo de configuração
+            cat > "$xsettings_file" << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xsettings" version="1.0">
+  <property name="Net" type="empty">
+    <property name="ThemeName" type="string" value="$THEME_NAME"/>
+    <property name="IconThemeName" type="string" value="Papirus-Dark"/>
+  </property>
+</channel>
+EOF
+        fi
+        
+        # Definir permissões corretas
+        chown -R "$user:$user" "$user_home/.config/xfce4"
+        
+        # Tentar reiniciar o Thunar se estiver em execução
+        if pgrep thunar > /dev/null; then
+            echo "Reiniciando o Thunar para aplicar o tema..."
+            pkill -u "$user" thunar
+            sleep 1
+            su - "$user" -c "export DISPLAY=:0; thunar --daemon &>/dev/null &" || true
+        fi
+    fi
+
     # Restore wallpaper - this will ensure it's preserved
     local wallpaper_backup="$user_home/.config/${THEME_NAME}-wallpaper-backup.txt"
     if [ -f "$wallpaper_backup" ]; then
@@ -432,18 +478,18 @@ post_install() {
     # Apply theme to Rofi
     apply_theme_to_rofi "$user" "$user_home"
 
-    echo "Tema Shades-of-Purple aplicado com sucesso para i3wm e Rofi! O wallpaper original foi preservado."
+    echo "Tema Graphite-Dark-nord aplicado com sucesso para i3wm e Rofi! O wallpaper original foi preservado."
     return 0
 }
 
 # Function executed before package removal
 pre_remove() {
-    echo "Preparando para remover o tema Shades-of-Purple do i3wm..."
+    echo "Preparando para remover o tema Graphite-Dark-nord do i3wm..."
 }
 
 # Function executed after package removal
 post_remove() {
-    echo "Restaurando configurações padrão e removendo arquivos do tema Shades-of-Purple..."
+    echo "Restaurando configurações padrão e removendo arquivos do tema Graphite-Dark-nord..."
 
     # Get user information
     user=$(logname)
@@ -470,6 +516,7 @@ post_remove() {
         latest_gtk2=$(ls -t "$backup_dir"/gtkrc-2.0-*.bak 2>/dev/null | head -1)
         latest_gtk3_settings=$(ls -t "$backup_dir"/gtk3-settings-*.bak 2>/dev/null | head -1)
         latest_gtk4_settings=$(ls -t "$backup_dir"/gtk4-settings-*.bak 2>/dev/null | head -1)
+        latest_xsettings=$(ls -t "$backup_dir"/xsettings-*.bak 2>/dev/null | head -1)
         
         # Remove current directories to avoid conflicts
         for dir in "$GTK4_DIR" "$GTK3_DIR"; do
@@ -518,6 +565,22 @@ post_remove() {
             echo "Removido: $GTK2_FILE"
         fi
         
+        # Restore XFCE settings if available
+        xfce_settings="$user_home/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml"
+        if [ -n "$latest_xsettings" ] && [ -f "$xfce_settings" ]; then
+            echo "Restaurando configurações do XFCE..."
+            cp "$latest_xsettings" "$xfce_settings"
+            chown "$user:$user" "$xfce_settings"
+            
+            # Tentar reiniciar o Thunar se estiver em execução
+            if pgrep thunar > /dev/null; then
+                echo "Reiniciando o Thunar para aplicar as configurações restauradas..."
+                pkill -u "$user" thunar
+                sleep 1
+                su - "$user" -c "export DISPLAY=:0; thunar --daemon &>/dev/null &" || true
+            fi
+        fi
+        
         # Restore wallpaper
         local wallpaper_backup="$user_home/.config/${THEME_NAME}-wallpaper-backup.txt"
         if [ -f "$wallpaper_backup" ]; then
@@ -562,6 +625,6 @@ post_remove() {
         rm -rf "$backup_dir"
     fi
 
-    echo "Configurações padrão restauradas e todos os arquivos do tema Shades-of-Purple foram removidos."
+    echo "Configurações padrão restauradas e todos os arquivos do tema Graphite-Dark-nord foram removidos."
     return 0
 }

@@ -1,15 +1,18 @@
 # Maintainer: Narayan Silva <narayan.song@gmail.com>
 # Contributor: Leonardo Berbert <leo4berbert@gmail.com>
 
-pkgname=comm-i3-theme-jolly
-pkgdesc="Shades of Purple GTK Theme for i3wm"
+pkgname=comm-i3-theme-graphite
+pkgdesc="Graphite Dark Nord GTK Theme for i3wm"
 pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
 url="https://github.com/communitybig/${pkgname}"
 license=('MIT')
+provides=('comm-i3-theme-jolly')
+conflicts=('comm-i3-theme-jolly')
+replaces=('comm-i3-theme-jolly')
 source=(
-    "Shades-of-purple-standard-buttons.tar.xz"
+    "Graphite-Dark-nord.tar.xz"
 )
 sha256sums=('SKIP')
 install="pkgbuild.install"
@@ -21,11 +24,22 @@ package() {
     mkdir -p "${pkgdir}/usr/share/themes"
 
     # Extract the theme with the correct compression tool (xz)
-    tar -xf "Shades-of-purple-standard-buttons.tar.xz"
+    tar -xf "Graphite-Dark-nord.tar.xz"
     
-    # Renomear para garantir consistência (opcional, mas recomendado)
-    mv "Shades-of-purple-standard-buttons" "Shades-of-Purple"
-    
-    # Copiar para o diretório correto
-    cp -r "Shades-of-Purple" "${pkgdir}/usr/share/themes/"
+    # Ensure the extracted folder is named correctly
+    if [ -d "Graphite-Dark-nord" ]; then
+        # If the folder is already named correctly, just copy it
+        cp -r "Graphite-Dark-nord" "${pkgdir}/usr/share/themes/"
+    else
+        # Try to find the actual extracted folder name
+        extracted_dir=$(find . -maxdepth 1 -type d -not -name "." | head -1)
+        if [ -n "$extracted_dir" ]; then
+            # Rename and copy the folder
+            mv "$extracted_dir" "Graphite-Dark-nord"
+            cp -r "Graphite-Dark-nord" "${pkgdir}/usr/share/themes/"
+        else
+            echo "Error: Could not find the extracted theme directory"
+            exit 1
+        fi
+    fi
 }
